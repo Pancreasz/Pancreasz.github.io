@@ -67,15 +67,6 @@
         <p>In this project I didn't use the whole brain, only the parts I needed: the escape circuit (looming-detector neurons → the giant fiber, which makes the fly jump away from the swatter), the smell circuit (odour receptor neurons → projection neurons, so the fly can sniff out the cheese), and the vision circuits (LC10 eye neurons → DNa02 to steer toward the cheese, and LPLC4 → DNp07 to land on it).</p>
         <p>I just wanted to try out the fly brain, and then a crazy idea came to mind: what if we were the fly, and the fly tried to swat us instead of us swatting them? So I made a little game about it. I also visualized the neurons, so you can see when each one is active and what it does.</p>
       </blockquote>
-      <figure class="media">
-        <figcaption class="note">game vid</figcaption>
-        <div class="ph video-ph" role="button" tabindex="0" data-src="assets/flybrain-game.mp4" aria-label="Play game video">
-          <span class="play" aria-hidden="true">
-            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29"/><path d="M26 20 L46 32 L26 44 Z"/></svg>
-          </span>
-          <span class="ph-label">game video</span>
-        </div>
-      </figure>
     </div>
     <div class="fly-bottom">
       <div class="fly-hint">
@@ -298,7 +289,7 @@
           <div id="moca-body">
             <p>This is the project that got me into research. My professor gave me the problem and guided me the whole way through.</p>
             <p>The problem is simple: how can we make the MoCA test more efficient? MoCA is a 30-point paper test doctors use to screen for early memory and thinking problems like dementia. The patient finishes it in about ten minutes, but then medical staff have to check every answer by hand, and that takes a lot of time. So what if an app did exactly that? It scores the patient, gives the result straight to the medical staff, and gets rid of the paper too, so we don't throw a test sheet away every time someone takes it.</p>
-            <p>I built it as a Flutter app with a Python Flask server behind it. The hardest part is the Clock Drawing Test, where the patient draws a clock showing ten past eleven. Everyone draws differently: shaky circles, numbers squeezed to one side, hands the wrong length. A hand-written algorithm can't cover all of that, so we turned to deep learning instead. A DenseNet-201 model scored the clocks with about 90% accuracy, better than ResNet50, EfficientNet-B7 and XGBoost on the same test set, and the work became my first publication, ASDL-2.</p>
+            <p>I built it as a Flutter app with a Python Flask server behind it. The hardest part is the Clock Drawing Test, where the patient draws a clock showing ten past eleven. Everyone draws differently: shaky circles, numbers squeezed to one side, hands the wrong length. A hand-written algorithm can't cover all of that, so we turned to deep learning instead. A DenseNet-201 model scored the clocks with about 90% accuracy, better than ResNet50, EfficientNet-B7 and XGBoost on the same test set, and the work became ASDL-2, the follow-up to my first paper, ASDL.</p>
             <p>Click a lobe to open its test.</p>
           </div>
         </blockquote>

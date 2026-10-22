@@ -396,7 +396,7 @@ img { max-width: 100%; display: block; }
 }
 
 /* ========== 4. SNN-Pyramid ========== */
-#snn .grid-2 { grid-template-columns: 1fr; gap: 24px; }   /* long text: pyramid sits under it */
+#snn .grid-2, #flybrain .grid-2 { grid-template-columns: 1fr; gap: 24px; }   /* long text: pyramid sits under it */
 .pyr-wrap { text-align: center; }
 .pyr-stage {
   height: 320px;

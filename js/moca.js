@@ -15,11 +15,11 @@
   // color: borders and the connector; ink: a darker shade that reads as text
   const INFO = {
     frontal:  { color: '#f4b43a', ink: '#b07a0c', title: 'Frontal lobe · Clock Drawing',
-                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis euismod semper.' },
+                text: "The patient draws a clock with all the numbers and sets the hands to ten past eleven. It looks easy, but it takes planning, spacing the numbers around the circle, and knowing that \"ten past\" means the long hand points at the 2. That's executive function, the frontal lobe's job, with the parietal lobe helping on the spatial layout. It's worth 3 points: one each for the circle, the numbers and the hands." },
     parietal: { color: '#19a99a', ink: '#0d7f73', title: 'Parietal lobe · Orientation',
-                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare.' },
+                text: "The patient says today's date, month, year and day of the week, plus where they are and which city. It checks whether they can keep track of time and place, which needs attention and memory working together. Losing track of the date is often one of the first things families notice with dementia. Each correct answer is 1 point, 6 in total." },
     temporal: { color: '#8e88d6', ink: '#5a52b0', title: 'Temporal lobe · Memory',
-                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Aenean eu leo quam.' },
+                text: "Delayed recall. The patient hears five words at the start of the test, does the other tasks, then about five minutes later has to say them back without any hints. The temporal lobe, especially the hippocampus inside it, is where new memories get stored, and it's one of the first areas Alzheimer's damages. Each word remembered without a cue is 1 point." },
   };
 
   let current = null;
