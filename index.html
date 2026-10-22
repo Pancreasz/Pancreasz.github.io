@@ -1,0 +1,654 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pumasin Paeyai</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/anatomy.css">
+  <script>
+    // Page transitions on, unless the visitor prefers reduced motion. Failsafe: if
+    // js/transitions.js never runs, show everything after 2.5 s instead of staying hidden.
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.documentElement.classList.add('tx');
+      setTimeout(() => { if (!window.__txReady) document.documentElement.classList.remove('tx'); }, 2500);
+    }
+  </script>
+</head>
+<body>
+
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="topnav">
+  <a class="topnav-name" href="#home">Pumasin Paeyai</a>
+  <nav class="topnav-links" aria-label="Main">
+    <a href="#home">Home</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#research">Research</a>
+    <a href="#about">Contact</a>
+    <span class="topnav-ink" aria-hidden="true"></span>
+  </nav>
+</header>
+<nav class="dots" aria-label="Sections"></nav>
+
+<main id="main">
+
+<!-- ============ 1. HOME ============ -->
+<section class="page" id="home" data-label="Home">
+  <div class="inner">
+    <div class="hero">
+      <h1 class="hero-name">Pumasin<br>Paeyai</h1>
+      <div class="avatar ph">
+        <span class="ph-label">profile photo</span>
+        <img src="assets/profile.jpg" alt="Pumasin Paeyai" onerror="this.remove()">
+      </div>
+    </div>
+    <blockquote class="quote hero-quote">
+      <p><strong class="lead">Computer Engineering student</strong> ready to commit fully to a master's degree in Artificial Intelligence and Computer Engineering. I'm most drawn to edge AI hardware, computer vision, neuromorphic chips and low-power edge computing. So far I've worked on machine learning forecasting, computer vision (segmentation, object detection, pose estimation), embedding-based classification, data mining and analysis, spiking neural networks, and bringing AI onto real hardware. I want to go much deeper into these at the graduate level.</p>
+    </blockquote>
+  </div>
+</section>
+
+<!-- ============ 2. PROJECT DIVIDER ============ -->
+<section class="page divider" id="projects" data-label="Projects">
+  <h2 class="divider-title">Project</h2>
+</section>
+
+<!-- ============ 3. FLY BRAIN ============ -->
+<section class="page" id="flybrain" data-label="Fly Brain">
+  <div class="inner">
+    <h2 class="page-title">Fly Brain</h2>
+    <div class="grid-2">
+      <blockquote class="quote fly-quote">
+        <p>I've been getting interested in neuroscience, and Google and Janelia recently open-sourced a full map of the fruit fly brain (the MaleCNS connectome), so I wanted to play with it. This project taught me a lot about the brain. The fact that amazed me most is that, even with the whole wiring map, we still don't really know how the brain processes information. We can see the inputs and the outputs, but we don't actually know what's happening in between, and the fly brain is the same. So the approach is to map the brain's inputs and outputs, label which neurons do what, and then use them.</p>
+        <p>In this project I didn't use the whole brain, only the parts I needed: the escape circuit (looming-detector neurons → the giant fiber, which makes the fly jump away from the swatter), the smell circuit (odour receptor neurons → projection neurons, so the fly can sniff out the cheese), and the vision circuits (LC10 eye neurons → DNa02 to steer toward the cheese, and LPLC4 → DNp07 to land on it).</p>
+        <p>I just wanted to try out the fly brain, and then a crazy idea came to mind: what if we were the fly, and the fly tried to swat us instead of us swatting them? So I made a little game about it. I also visualized the neurons, so you can see when each one is active and what it does.</p>
+      </blockquote>
+      <figure class="media">
+        <figcaption class="note">game vid</figcaption>
+        <div class="ph video-ph" role="button" tabindex="0" data-src="assets/flybrain-game.mp4" aria-label="Play game video">
+          <span class="play" aria-hidden="true">
+            <svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="29"/><path d="M26 20 L46 32 L26 44 Z"/></svg>
+          </span>
+          <span class="ph-label">game video</span>
+        </div>
+      </figure>
+    </div>
+    <div class="fly-bottom">
+      <div class="fly-hint">
+        <p class="note big">You're the cheese</p>
+        <p class="note">The fly smells you from far away, steers toward you once it sees you, and lands on you (♥ + pheromone). Click near it to swat and it jumps away.</p>
+        <ul class="circuits" id="fly-circuits">
+          <li data-c="smell"  style="--c:#ffb000"><i></i><b>Smell</b><span>odour receptor neurons → projection neurons</span></li>
+          <li data-c="steer"  style="--c:#1f8fff"><i></i><b>Steer</b><span>LC10 → DNa02</span></li>
+          <li data-c="land"   style="--c:#22a559"><i></i><b>Land</b><span>LPLC4 → DNp07</span></li>
+          <li data-c="escape" style="--c:#e5484d"><i></i><b>Escape</b><span>looming detectors → giant fiber</span></li>
+        </ul>
+        <p class="fly-state" id="fly-state" aria-live="off">Wandering…</p>
+      </div>
+      <figure class="brain-fig">
+        <figcaption class="note">fly brain · live</figcaption>
+        <svg id="fly-brain" viewBox="-6 8 412 252" role="img" aria-label="Fly brain, front view. Regions light up while the fly uses them."></svg>
+        <small class="credit">Neuropil meshes: Ito et al. 2014 (JFRC2) in FlyWire space, via fafbseg · colours after the FlyWire Neuropil Guide · drag to rotate</small>
+      </figure>
+    </div>
+  </div>
+  <div class="fly-layer" aria-hidden="true">
+    <div id="fly">
+      <svg viewBox="0 0 60 60">
+        <g class="wings">
+          <ellipse cx="24" cy="18" rx="13" ry="7" transform="rotate(-25 24 18)"/>
+          <ellipse cx="24" cy="42" rx="13" ry="7" transform="rotate(25 24 42)"/>
+        </g>
+        <g class="legs">
+          <path d="M22 30 L16 40 M28 30 L26 42 M34 30 L36 41 M22 30 L16 20 M28 30 L26 18 M34 30 L36 19"/>
+        </g>
+        <ellipse class="body" cx="26" cy="30" rx="14" ry="8"/>
+        <circle class="head" cx="43" cy="30" r="7"/>
+        <circle class="eye" cx="46" cy="25.5" r="3.2"/>
+        <circle class="eye" cx="46" cy="34.5" r="3.2"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4. SNN-PYRAMID ============ -->
+<section class="page" id="snn" data-label="SNN-Pyramid">
+  <div class="inner">
+    <h2 class="page-title">SNN-Pyramid</h2>
+    <div class="grid-2">
+      <blockquote class="quote">
+        <p>I started this project after I found out about neuromorphic chips. They work more like our brain does, computing fast while using far less energy than a normal chip. That really impressed me, and I think this is where the next generation of chips is going. So I looked into where the research is right now, and that's how I found spiking neural networks (SNNs).</p>
+        <p>What surprised me is how closely they copy the brain. Neurons don't pass numbers around, they fire spikes, just 1s and 0s over time, and the network counts the spikes to make its decision. Most neurons stay quiet most of the time, and that's where the power saving comes from. The idea is really simple, but it works.</p>
+        <p>I wanted to make this more efficient, and I landed on the encoder, the step that turns an image into spikes before it goes into the SNN. There are a few common ones. Rate coding makes bright pixels fire more often. Direct coding feeds the raw pixel values in at every step and lets the first layer do the spiking. Latency coding makes the strongest pixels fire first. DCT-SNN splits the image into frequencies and sends the low ones first.</p>
+        <p>Then I remembered the Gaussian pyramid from my image processing class. You blur the image and shrink it to half size, then do it again, so you get a stack of smaller, blurrier copies (28×28, 14×14, 7×7 here). Take the difference between each level and the next one and you're left with just the detail at that scale. I tried sending those layers into the SNN one after another, and it worked. On energy it still didn't clearly beat the best encoders out there, but I got the accuracy as close as I could.</p>
+        <p>You might notice something is off about the pyramid: it's upside down. That's one of my findings. The coarse layer doesn't help the classification much, so I flipped the order and the model gets the fine detail first. That helped, but it didn't fix the encoder on its own, so I went back to the papers and found methods that take the fine layer and keep adding the other layers on top of it. Right now I'm getting the network ready to run on an FPGA, so I can measure the energy for real instead of estimating it, and learn how SNNs and FPGAs fit together.</p>
+      </blockquote>
+      <div class="pyr-wrap">
+        <p class="note">drag to rotate</p>
+        <div class="pyr-stage" id="pyr-stage">
+          <div class="pyr" id="pyr">
+            <div class="pyr-layer" style="--i:0"><canvas data-layer="0" width="112" height="112"></canvas></div>
+            <div class="pyr-layer" style="--i:1"><canvas data-layer="1" width="112" height="112"></canvas></div>
+            <div class="pyr-layer" style="--i:2"><canvas data-layer="2" width="112" height="112"></canvas></div>
+            <div class="pyr-layer" style="--i:3"><canvas data-layer="3" width="112" height="112"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="snn-bottom">
+      <div class="snn-col snn-draw-col">
+        <p class="note big">Draw digit</p>
+        <canvas id="snn-draw" width="280" height="280" aria-label="Drawing pad"></canvas>
+        <div class="snn-buttons">
+          <button class="btn" id="snn-clear" type="button">Clear</button>
+          <button class="btn ghost" id="snn-sample" type="button">Try a real MNIST digit</button>
+        </div>
+      </div>
+
+      <div class="snn-encoding">
+        <ol class="snn-ticks" id="snn-ticks" aria-label="Timesteps"></ol>
+        <div class="snn-levels">
+          <!-- Laplacian pyramid levels, in the order the model sends them (fine to coarse) -->
+          <div class="snn-col snn-level" data-level="2">
+            <p class="note">spike = <b>0</b></p>
+            <canvas class="snn-layer" width="140" height="140"></canvas>
+            <small>28×28 detail</small>
+          </div>
+          <div class="snn-col snn-level" data-level="1">
+            <p class="note">spike = <b>0</b></p>
+            <canvas class="snn-layer" width="98" height="98"></canvas>
+            <small>14×14 detail</small>
+          </div>
+          <div class="snn-col snn-level" data-level="0">
+            <p class="note">spike = <b>0</b></p>
+            <canvas class="snn-layer" width="56" height="56"></canvas>
+            <small>7×7 coarse</small>
+          </div>
+        </div>
+        <p class="snn-legend"><i class="on"></i>ON spike <i class="off"></i>OFF spike</p>
+      </div>
+
+      <div class="snn-col">
+        <p class="note big">Result</p>
+        <div class="snn-result">
+          <span class="snn-digit" id="snn-digit">–</span>
+          <small id="snn-conf">draw a digit</small>
+          <div class="snn-bars" id="snn-bars" aria-label="Output spikes per class"></div>
+        </div>
+      </div>
+    </div>
+    <p class="snn-model" id="snn-model">Real model from my SNN-Pyramid project, running in your browser.</p>
+  </div>
+</section>
+
+<!-- ============ 5. PAINAI ============ -->
+<section class="page" id="painai" data-label="PAINAI">
+  <div class="inner">
+    <h2 class="page-title">PAINAI</h2>
+    <p class="note painai-hint">Hover or tap a pin to see the quest. Click "Join" to take part.</p>
+    <div class="map" id="painai-map">
+      <div class="map-canvas" id="painai-canvas">
+        <img class="map-img" src="assets/painai/bangkok.webp" alt="Map of central Bangkok" loading="lazy" width="2304" height="1536">
+        <svg class="cone cone-static" aria-hidden="true"></svg>
+        <svg class="cone cone-quest" aria-hidden="true"></svg>
+        <div class="map-card quest" id="painai-quest" hidden></div>
+        <p class="map-credit">© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors</p>
+        <div class="map-search">
+          <label for="painai-search">Search Activities</label>
+          <div class="map-search-row">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10" cy="10" r="6.5"/><path d="M15 15 L21 21"/></svg>
+            <input id="painai-search" type="search" autocomplete="off" placeholder="football, boardgame, running…">
+          </div>
+        </div>
+        <button class="map-side-btn" id="painai-side-btn" type="button" aria-label="Show activity list" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5 L16 12 L9 19"/></svg>
+        </button>
+        <aside class="map-side" id="painai-side" aria-label="Activities">
+          <p class="map-side-title">Activities nearby</p>
+          <ul id="painai-list"></ul>
+        </aside>
+      </div>
+      <article class="painai-card" id="painai-text">
+        <p class="kicker">About PAINAI</p>
+        <p>Just think about the times when you want to do some kind of activity, but your friends aren’t into it and won’t go with you. That’s real pain. So I thought: what if there were an app that lets you find new friends to do those activities with? Or maybe you just want to make some new friends, and the app works for that too.</p>
+        <p>But that alone isn’t interesting enough for me. I like playing video games, so imagine a map with mini quests scattered across it. You can click on a quest to see its details and decide whether you want to join it or not. I adapted that concept into our web app: when you enter, you see a map like Google Maps, but you use it to discover activities you want to do and the people who want to do them with you.</p>
+        <p>This is a group project, and my role is golang backend developer and database dev. This is where I get into everything about CI/CD, microservices architecture, cloud services, Docker, Postman, and a lot more. I also work as the project manager, keeping everything on schedule and judging whether new features will fit the timeline. I’m having a really good time working on this project.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 6. EAR BIOMETRIC ============ -->
+<section class="page" id="ear" data-label="Ear Biometric">
+  <div class="inner">
+    <h2 class="page-title">Ear Biometric</h2>
+    <blockquote class="quote ear-quote">
+      <p class="kicker">Tak hospital · newborns in the NICU</p>
+      <p>This research project was developed in collaboration with a hospital in Tak province to solve a highly specific problem: identifying newborns in the NICU who are wearing oxygen masks. The hospital already utilized a face biometric system, but the masks obscured the infants' faces, rendering the current system unusable. They wanted to research and implement ear biometrics as an alternative, as the physical contours, ridges, and shapes of the ear are highly unique to each individual and remain visible. The project extended down to the hardware level; we integrated an Intel RealSense depth camera to calculate spatial distances and ensure the ear was captured at the precise angle required for a valid scan.</p>
+      <p>The system pipeline starts with the camera feed, where we deploy a YOLOv8 object detection model to locate, segment, and crop the ear from the background. We then pass this cropped image to our embedding algorithm. The mathematical precision of this step works flawlessly, but it also creates a strict constraint: the ear must be aligned at the exact same angle during both the initial registration and any subsequent identification attempts. Once the embedding vector is generated, we store it in a Dockerized PostgreSQL vector database alongside the patient's records. For future identifications, the system captures a new scan, generates a fresh vector, and compares it against our database to find a match.</p>
+      <p>I had the opportunity to travel to the hospital in Tak to test the system in the field. While the software and detection models executed perfectly, we encountered a highly unpredictable real-world variable: the babies wouldn't stay still. This constant movement made capturing a clean, perfectly aligned shot extremely difficult. Furthermore, during our first iteration, we discovered a flaw tied to ear color—when the babies cried, their ears would flush bright red, which shifted the pixel values enough to disrupt the matching process. To solve this, we updated our preprocessing pipeline to extract the Value (brightness) channel, essentially converting the image to grayscale, and applied CLAHE to normalize the shadows. This highlighted the physical ridges while completely stripping away any skin color or redness.</p>
+      <p>For the application's architecture, we built the desktop UI using React and TSX wrapped in Electron, supported by a TypeScript backend. Because of the computational workload, we offloaded all camera communication, YOLO model inference, and image preprocessing to dedicated Python scripts. Rather than relying on a deep learning model for the biometric signature, we utilized a HOG (Histogram of Oriented Gradients) descriptor. This analyzes the edge orientations of the grayscale image to create the final, high-dimensional ear embedding.</p>
+    </blockquote>
+
+    <div class="ear-pipe" id="ear-pipe">
+      <figure class="pipe-step" id="ear-cam">
+        <svg viewBox="0 0 64 48" aria-hidden="true">
+          <rect x="40" y="6" width="14" height="8" rx="2"/>
+          <rect x="4" y="12" width="56" height="32" rx="5"/>
+          <circle cx="32" cy="28" r="10"/><circle cx="32" cy="28" r="4"/>
+          <rect x="10" y="17" width="9" height="6" rx="1"/>
+        </svg>
+        <figcaption>RealSense camera</figcaption>
+      </figure>
+      <span class="pipe-arrow" aria-hidden="true"></span>
+      <figure class="pipe-step" id="ear-crop">
+        <span class="crop-slot"></span>
+        <figcaption>YOLOv8 crop<br>V channel + CLAHE</figcaption>
+      </figure>
+      <span class="pipe-arrow" aria-hidden="true"></span>
+      <figure class="pipe-step" id="ear-vector">
+        <span class="vec" aria-label="Embedding vector"><span class="vec-rows"></span></span>
+        <figcaption>HOG vector</figcaption>
+      </figure>
+      <span class="pipe-arrow" aria-hidden="true"></span>
+      <figure class="pipe-step" id="ear-db">
+        <svg viewBox="0 0 60 70" aria-hidden="true">
+          <path d="M6 12 v46 a24 8 0 0 0 48 0 v-46"/>
+          <ellipse cx="30" cy="12" rx="24" ry="8"/>
+          <path d="M6 28 a24 8 0 0 0 48 0 M6 44 a24 8 0 0 0 48 0"/>
+        </svg>
+        <figcaption>PostgreSQL<br>vector DB</figcaption>
+      </figure>
+      <span class="pipe-arrow" aria-hidden="true"></span>
+      <figure class="pipe-step">
+        <span class="pipe-name" id="ear-name">?</span>
+        <figcaption>match</figcaption>
+      </figure>
+    </div>
+
+    <div class="ear-bottom">
+      <div class="ears" id="ears"></div>
+      <svg id="ear-plot" viewBox="0 0 280 240" aria-label="Embedding space">
+        <defs id="ear-markers"></defs>
+        <g id="ear-axes"></g>
+        <g id="ear-vecs"></g>
+      </svg>
+      <div class="ear-result">
+        <p class="note big">result</p>
+        <p class="ear-res-name" id="ear-res-name">–</p>
+        <p class="ear-res-conf" id="ear-res-conf">click an ear</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7. MoCA TEST ============ -->
+<section class="page" id="moca" data-label="MoCA Test">
+  <div class="inner">
+    <h2 class="page-title">MoCA Test</h2>
+    <div class="moca-grid" id="moca-grid">
+      <div class="moca-left">
+        <blockquote class="quote" id="moca-text">
+          <p class="kicker" id="moca-kicker">Montreal Cognitive Assessment</p>
+          <div id="moca-body">
+            <p>This is the project that got me into research. My professor gave me the problem and guided me the whole way through.</p>
+            <p>The problem is simple: how can we make the MoCA test more efficient? MoCA is a 30-point paper test doctors use to screen for early memory and thinking problems like dementia. The patient finishes it in about ten minutes, but then medical staff have to check every answer by hand, and that takes a lot of time. So what if an app did exactly that? It scores the patient, gives the result straight to the medical staff, and gets rid of the paper too, so we don't throw a test sheet away every time someone takes it.</p>
+            <p>I built it as a Flutter app with a Python Flask server behind it. The hardest part is the Clock Drawing Test, where the patient draws a clock showing ten past eleven. Everyone draws differently: shaky circles, numbers squeezed to one side, hands the wrong length. A hand-written algorithm can't cover all of that, so we turned to deep learning instead. A DenseNet-201 model scored the clocks with about 90% accuracy, better than ResNet50, EfficientNet-B7 and XGBoost on the same test set, and the work became my first publication, ASDL-2.</p>
+            <p>Click a lobe to open its test.</p>
+          </div>
+        </blockquote>
+
+        <div class="moca-comp" id="moca-comp">
+          <p class="note big comp-hint">← click a lobe of the brain →</p>
+
+          <!-- 1. CDT : frontal -->
+          <div class="comp" data-comp="frontal" hidden>
+            <p class="comp-title"><span class="num">1.</span> Clock Drawing Test</p>
+            <div class="clocks" id="moca-clocks"></div>
+          </div>
+
+          <!-- 2. D/M/Y : parietal -->
+          <div class="comp" data-comp="parietal" hidden>
+            <p class="comp-title"><span class="num">2.</span> What is the date today?</p>
+            <form class="dmy" id="moca-dmy">
+              <label>Day<select id="dmy-day"></select></label>
+              <label>Date<select id="dmy-date"></select></label>
+              <label>Month<select id="dmy-month"></select></label>
+              <label>Year<select id="dmy-year"></select></label>
+              <button class="btn" type="submit">Check</button>
+            </form>
+            <p class="dmy-result" id="dmy-result" aria-live="polite"></p>
+          </div>
+
+          <!-- 3. Remember : temporal -->
+          <div class="comp" data-comp="temporal" hidden>
+            <p class="comp-title"><span class="num">3.</span> Remember these words. You will be asked for them later.</p>
+            <div class="words" id="moca-words">
+              <span>red</span><span>ant</span><span>bottle</span><span>microphone</span><span>eraser</span>
+            </div>
+            <div class="recall" id="moca-recall" hidden>
+              <input type="text" id="recall-input" aria-label="Words you remember" placeholder="Type the words you remember…" autocomplete="off">
+              <button class="btn" id="recall-check" type="button">Check</button>
+            </div>
+            <div class="recall-actions">
+              <button class="btn ghost" id="words-hide" type="button">I've memorised them</button>
+            </div>
+            <p class="dmy-result" id="recall-result" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="moca-right">
+        <p class="note">click the frontal, parietal or temporal lobe</p>
+        <svg id="moca-brain" viewBox="0 0 440 360" aria-label="Side view of the brain">
+          <defs>
+            <!-- each region's folds stay inside that region -->
+            <clipPath id="c-stem"><use href="#r-stem"/></clipPath>
+            <clipPath id="c-cerebellum"><use href="#r-cerebellum"/></clipPath>
+            <clipPath id="c-occipital"><use href="#r-occipital"/></clipPath>
+            <clipPath id="c-parietal"><use href="#r-parietal"/></clipPath>
+            <clipPath id="c-frontal"><use href="#r-frontal"/></clipPath>
+            <clipPath id="c-temporal"><use href="#r-temporal"/></clipPath>
+            <radialGradient id="brain-shade" cx="35%" cy="25%" r="85%">
+              <stop offset="0" stop-color="#fff" stop-opacity=".3"/>
+              <stop offset=".55" stop-color="#fff" stop-opacity="0"/>
+              <stop offset="1" stop-color="#000" stop-opacity=".14"/>
+            </radialGradient>
+          </defs>
+          <!-- traced from a reference illustration; back to front: stem, cerebellum, lobes -->
+          <g class="brain">
+            <g class="part stem">
+              <path id="r-stem" d="M228.5 209.0C225.8 211.2 224.6 213.4 223.0 216.5C221.4 219.6 217.7 224.3 219.0 227.5C220.3 230.7 225.2 230.2 231.0 235.5C236.8 240.8 245.8 252.3 253.5 259.5C261.2 266.7 271.6 273.3 277.5 278.5C283.4 283.7 285.5 286.0 289.0 290.5C292.5 295.0 294.9 302.9 298.5 305.5C302.1 308.1 307.2 306.6 310.5 306.0C313.8 305.4 316.8 303.5 318.0 302.0C319.2 300.5 319.7 302.3 318.0 297.0C316.3 291.7 309.6 275.0 308.0 270.0C306.4 265.0 311.8 268.2 308.5 267.0C305.2 265.8 293.5 264.6 288.0 263.0C282.5 261.4 279.0 259.4 275.5 257.5C272.0 255.6 270.2 254.7 267.0 251.5C263.8 248.3 258.6 242.8 256.0 238.5C253.4 234.2 252.2 229.5 251.5 225.5C250.8 221.5 250.5 219.0 251.5 214.5C252.5 210.0 258.9 201.3 257.5 198.5C256.1 195.7 246.1 196.8 243.0 197.5C239.9 198.2 241.4 201.1 239.0 203.0C236.6 204.9 231.2 206.8 228.5 209.0Z"/>
+              <path class="gyri" clip-path="url(#c-stem)" d="M298.0 274.5C297.5 274.2 296.9 273.2 295.0 273.0C293.1 272.8 287.9 273.0 286.5 273.0 M300.0 303.0C300.8 303.1 303.8 303.4 304.5 303.5 M252.5 245.0C252.9 245.5 254.6 247.5 255.0 248.0 M237.5 238.0C238.1 238.7 240.4 241.3 241.0 242.0 M230.0 232.0C229.1 231.3 225.4 228.7 224.5 228.0 M308.0 279.5C308.5 280.5 310.0 282.2 311.0 285.5C312.0 288.8 313.6 296.4 314.0 299.0C314.4 301.6 314.2 300.4 313.5 301.0C312.8 301.6 310.4 302.5 309.5 302.5C308.6 302.5 308.2 302.0 308.0 301.0C307.8 300.0 308.0 297.2 308.0 296.5 M274.5 270.5C275.2 270.6 277.8 270.9 278.5 271.0 M246.5 216.0C246.2 214.8 244.8 209.8 244.5 208.5 M279.0 276.0C278.4 275.7 276.3 274.8 275.5 274.0C274.7 273.2 274.2 271.5 274.0 271.0 M286.5 268.5C286.8 268.2 287.9 266.4 288.5 266.5C289.1 266.6 289.8 268.6 290.0 269.0 M248.5 206.5C248.4 207.2 248.1 209.8 248.0 210.5 M273.5 270.5C272.8 269.8 270.8 267.3 269.5 266.5C268.2 265.7 267.3 266.2 266.0 265.5C264.7 264.8 262.2 262.6 261.5 262.0 M285.5 279.0C284.9 278.2 282.6 275.2 282.0 274.5 M246.5 230.0C246.8 230.9 248.2 234.6 248.5 235.5 M299.5 268.0C298.9 268.2 296.6 268.8 296.0 269.0 M361.5 191.5C361.4 190.6 361.1 186.9 361.0 186.0"/>
+            </g>
+            <g class="part cerebellum">
+              <path id="r-cerebellum" d="M301.5 175.0C299.9 175.0 300.2 175.5 300.0 177.0C299.8 178.5 300.8 182.0 300.0 184.0C299.2 186.0 297.9 188.1 295.5 189.0C293.1 189.9 289.2 188.2 285.5 189.5C281.8 190.8 277.2 195.2 273.0 196.5C268.8 197.8 263.1 196.9 260.5 197.5C257.9 198.1 258.8 197.6 257.5 200.0C256.2 202.4 253.4 207.8 252.5 212.0C251.6 216.2 251.6 221.6 252.0 225.5C252.4 229.4 253.8 232.6 255.0 235.5C256.2 238.4 256.8 239.8 259.5 243.0C262.2 246.2 266.8 251.2 271.5 254.5C276.2 257.8 281.7 260.7 288.0 262.5C294.3 264.3 304.2 266.8 309.5 265.5C314.8 264.2 315.8 257.6 320.0 255.0C324.2 252.4 330.8 252.0 335.0 250.0C339.2 248.0 341.2 246.8 345.0 243.0C348.8 239.2 354.3 232.6 357.5 227.0C360.7 221.4 363.2 212.8 364.0 209.5C364.8 206.2 362.8 208.8 362.5 207.0C362.2 205.2 364.9 202.2 362.5 198.5C360.1 194.8 351.8 187.2 348.0 184.5C344.2 181.8 342.2 181.9 340.0 182.0C337.8 182.1 337.4 184.2 334.5 185.0C331.6 185.8 325.4 186.7 322.5 186.5C319.6 186.3 319.2 185.6 317.0 184.0C314.8 182.4 312.1 178.5 309.5 177.0C306.9 175.5 303.1 175.0 301.5 175.0Z"/>
+              <path class="gyri" clip-path="url(#c-cerebellum)" d="M274.0 207.0C273.7 207.2 272.2 207.9 272.0 208.5C271.8 209.1 272.4 210.2 272.5 210.5 M331.5 215.0C332.1 214.9 334.4 214.6 335.0 214.5 M276.5 203.0C276.9 202.5 278.0 200.1 279.0 200.0C280.0 199.9 281.9 202.1 282.5 202.5 M325.5 222.5C324.9 222.9 322.6 224.6 322.0 225.0 M304.0 263.0C304.8 263.0 307.5 263.2 308.5 263.0C309.5 262.8 309.8 261.8 310.0 261.5 M314.5 228.5C313.8 228.8 312.5 230.2 310.5 230.5C308.5 230.8 303.8 230.5 302.5 230.5 M354.5 226.0C353.9 226.6 351.6 228.9 351.0 229.5 M351.5 210.5C350.7 210.9 347.3 212.6 346.5 213.0 M314.0 192.5C313.3 192.8 310.7 194.2 310.0 194.5 M342.0 239.0C339.7 238.9 330.3 238.6 328.0 238.5 M280.5 252.0C280.6 251.6 280.4 250.2 281.0 249.5C281.6 248.8 283.5 247.8 284.0 247.5 M313.5 217.0C314.1 216.4 315.5 214.3 317.0 213.5C318.5 212.7 321.6 212.2 322.5 212.0 M340.5 227.5C342.2 227.8 348.8 229.2 350.5 229.5 M342.0 201.0C341.4 201.2 339.1 202.2 338.5 202.5 M302.5 257.0C303.2 256.9 305.8 256.6 306.5 256.5 M280.5 204.5C280.1 205.2 278.4 208.2 278.0 209.0 M347.5 233.0C347.8 233.0 348.5 233.5 349.0 233.0C349.5 232.5 350.2 230.5 350.5 230.0 M256.0 210.5C255.8 211.3 255.2 214.7 255.0 215.5 M318.5 239.0C319.4 239.0 323.1 239.0 324.0 239.0 M332.0 225.0C332.8 224.4 335.8 222.1 336.5 221.5 M314.5 197.0C315.5 196.6 319.5 194.9 320.5 194.5 M285.0 240.0C284.5 239.5 282.5 237.5 282.0 237.0 M309.0 239.0C307.9 238.9 303.6 238.6 302.5 238.5 M302.0 243.0C303.0 243.4 307.0 245.1 308.0 245.5 M329.5 235.0C326.7 235.0 315.3 235.0 312.5 235.0 M307.0 210.5C307.7 210.2 310.3 208.8 311.0 208.5 M325.5 227.0C326.5 226.8 330.5 225.8 331.5 225.5 M326.5 249.5C326.1 249.3 326.2 248.6 324.0 248.5C321.8 248.4 315.8 249.2 313.5 249.0C311.2 248.8 310.6 247.3 310.0 247.0 M315.5 240.5C314.8 240.6 312.2 240.9 311.5 241.0 M255.5 228.5C256.1 229.1 258.4 231.4 259.0 232.0 M339.5 196.0C338.5 196.3 334.5 197.7 333.5 198.0 M301.5 193.0C300.8 193.2 297.8 194.2 297.0 194.5 M350.5 206.5C351.1 206.7 353.4 207.3 354.0 207.5 M332.0 225.5C332.8 225.7 336.2 226.3 337.0 226.5 M294.0 261.0C293.4 260.9 291.1 260.6 290.5 260.5 M339.5 244.0C337.7 243.8 331.1 242.4 328.5 242.5C325.9 242.6 325.9 244.2 324.0 244.5C322.1 244.8 318.2 244.5 317.0 244.5 M360.0 211.0C359.6 211.9 357.9 215.6 357.5 216.5"/>
+            </g>
+            <g class="lobe lobe-static" data-region="occipital">
+              <path id="r-occipital" d="M358.5 95.5C356.8 94.7 355.7 95.2 355.0 96.0C354.3 96.8 355.2 99.2 354.5 100.5C353.8 101.8 351.3 101.7 350.5 104.0C349.7 106.3 351.2 110.3 349.5 114.5C347.8 118.7 345.5 124.0 340.0 129.0C334.5 134.0 321.1 140.9 316.5 144.5C311.9 148.1 314.4 148.5 312.5 150.5C310.6 152.5 306.2 154.4 305.0 156.5C303.8 158.6 305.8 160.2 305.5 163.0C305.2 165.8 300.7 169.3 303.0 173.0C305.3 176.7 315.5 182.8 319.5 185.0C323.5 187.2 323.6 186.6 327.0 186.0C330.4 185.4 335.9 182.1 340.0 181.5C344.1 180.9 346.9 182.8 351.5 182.5C356.1 182.2 363.6 181.0 367.5 179.5C371.4 178.0 373.4 175.8 375.0 173.5C376.6 171.2 375.9 168.2 377.0 166.0C378.1 163.8 380.4 161.8 381.5 160.0C382.6 158.2 383.5 157.5 383.5 155.0C383.5 152.5 381.4 148.2 381.5 145.0C381.6 141.8 383.8 138.8 384.0 135.5C384.2 132.2 385.2 129.3 383.0 125.5C380.8 121.7 373.4 116.6 370.5 112.5C367.6 108.4 367.5 103.8 365.5 101.0C363.5 98.2 360.2 96.3 358.5 95.5Z"/>
+              <path class="gyri" clip-path="url(#c-occipital)" d="M351.0 161.0C350.8 160.2 349.6 158.5 349.5 156.5C349.4 154.5 350.3 150.2 350.5 149.0 M369.5 172.0C369.1 171.8 368.6 172.6 367.0 171.0C365.4 169.4 362.6 164.1 360.0 162.5C357.4 160.9 352.9 161.7 351.5 161.5 M364.0 117.0C364.1 118.1 364.4 122.4 364.5 123.5 M371.5 168.0C371.9 167.1 373.6 163.4 374.0 162.5 M364.5 124.0C365.1 124.4 367.0 125.2 368.0 126.5C369.0 127.8 369.0 130.0 370.5 132.0C372.0 134.0 375.9 137.4 377.0 138.5 M359.0 177.0C357.8 177.2 353.2 178.2 352.0 178.5 M377.0 138.5C377.2 140.5 378.0 148.2 378.5 150.5C379.0 152.8 379.8 151.8 380.0 152.0 M364.5 142.0C364.9 142.3 365.8 142.0 367.0 144.0C368.2 146.0 371.2 152.3 372.0 154.0 M338.5 164.0C339.4 164.5 341.9 167.4 344.0 167.0C346.1 166.6 349.8 162.4 351.0 161.5 M330.5 156.5C330.6 155.2 330.1 151.2 331.0 149.0C331.9 146.8 335.1 145.0 336.0 143.5C336.9 142.0 335.3 141.2 336.5 140.0C337.7 138.8 340.3 138.1 343.0 136.0C345.7 133.9 350.9 128.9 352.5 127.5 M371.5 119.0C372.3 119.6 375.1 120.9 376.5 122.5C377.9 124.1 379.4 127.5 380.0 128.5 M310.5 162.5C311.8 161.3 316.7 157.9 318.0 155.5C319.3 153.1 318.4 149.2 318.5 148.0 M378.5 131.5C377.4 130.2 373.1 125.2 372.0 124.0 M374.0 161.5C374.1 160.8 374.2 158.1 374.5 157.0C374.8 155.9 375.8 155.3 376.0 155.0"/>
+            </g>
+            <g class="lobe" data-region="parietal" tabindex="0" role="button" aria-label="Parietal lobe">
+              <path id="r-parietal" d="M210.5 33.0C208.7 36.2 212.0 43.9 209.5 49.5C207.0 55.1 198.4 61.9 195.5 66.5C192.6 71.1 192.5 74.4 192.0 77.0C191.5 79.6 191.7 80.2 192.5 82.0C193.3 83.8 196.1 85.8 197.0 88.0C197.9 90.2 198.1 93.0 198.0 95.0C197.9 97.0 198.2 97.9 196.5 100.0C194.8 102.1 189.4 105.2 187.5 107.5C185.6 109.8 185.3 111.6 185.0 114.0C184.7 116.4 184.4 119.3 185.5 122.0C186.6 124.7 190.8 127.8 191.5 130.0C192.2 132.2 189.7 133.8 189.5 135.0C189.3 136.2 189.7 136.7 190.5 137.0C191.3 137.3 193.1 138.0 194.5 137.0C195.9 136.0 195.8 133.5 199.0 131.0C202.2 128.5 207.6 123.3 213.5 122.0C219.4 120.7 229.2 123.6 234.5 123.0C239.8 122.4 242.4 119.2 245.0 118.5C247.6 117.8 248.2 117.8 250.0 118.5C251.8 119.2 255.1 120.5 256.0 123.0C256.9 125.5 254.2 130.7 255.5 133.5C256.8 136.3 259.9 137.9 264.0 140.0C268.1 142.1 273.9 144.6 280.0 146.0C286.1 147.4 295.0 148.2 300.5 148.5C306.0 148.8 308.9 149.3 313.0 147.5C317.1 145.7 320.9 140.2 325.0 137.5C329.1 134.8 333.7 134.5 337.5 131.0C341.3 127.5 345.9 121.0 348.0 116.5C350.1 112.0 349.0 106.7 350.0 104.0C351.0 101.3 353.0 103.4 354.0 100.5C355.0 97.6 356.3 90.1 356.0 86.5C355.7 82.9 353.4 80.9 352.0 79.0C350.6 77.1 351.0 76.8 347.5 75.0C344.0 73.2 334.9 70.8 331.0 68.5C327.1 66.2 326.1 62.8 324.0 61.5C321.9 60.2 320.8 61.9 318.5 60.5C316.2 59.1 314.0 55.2 310.5 53.0C307.0 50.8 304.8 49.2 297.5 47.0C290.2 44.8 272.5 41.7 266.5 40.0C260.5 38.3 264.7 37.8 261.5 37.0C258.3 36.2 251.5 36.4 247.5 35.5C243.5 34.6 242.0 32.3 237.5 31.5C233.0 30.7 225.0 30.2 220.5 30.5C216.0 30.8 212.3 29.8 210.5 33.0Z"/>
+              <path class="gyri" clip-path="url(#c-parietal)" d="M300.0 119.0C300.1 120.2 300.4 125.2 300.5 126.5 M316.0 135.0C315.8 134.8 315.0 135.1 315.0 134.0C315.0 132.9 314.6 131.1 316.0 128.5C317.4 125.9 322.2 120.2 323.5 118.5 M257.0 80.0C257.4 80.1 258.8 80.1 259.5 80.5C260.2 80.9 260.6 81.2 261.0 82.5C261.4 83.8 261.8 87.1 262.0 88.0 M344.5 113.5C343.9 112.8 342.3 110.2 341.0 109.0C339.7 107.8 338.2 107.9 336.5 106.5C334.8 105.1 331.9 101.5 331.0 100.5 M272.5 47.0C272.0 46.5 270.4 44.6 269.5 44.0C268.6 43.4 267.4 43.6 267.0 43.5 M272.5 47.0C273.8 47.0 279.2 47.0 280.5 47.0 M272.5 47.0C272.2 47.5 272.7 49.0 271.0 50.0C269.3 51.0 263.9 52.5 262.5 53.0 M233.5 84.0C233.2 85.7 233.2 91.2 232.0 94.0C230.8 96.8 227.0 99.8 226.0 101.0 M207.0 113.5C207.2 114.2 207.8 117.2 208.5 118.0C209.2 118.8 211.0 118.4 211.5 118.5 M223.5 54.0C223.6 53.7 223.2 53.0 224.0 52.0C224.8 51.0 227.6 49.2 228.5 48.0C229.4 46.8 229.3 45.1 229.5 44.5 M225.0 72.5C224.5 72.8 222.8 71.9 222.0 74.5C221.2 77.1 221.1 84.2 220.0 88.0C218.9 91.8 217.5 93.8 215.5 97.0C213.5 100.2 209.4 104.8 208.0 107.5C206.6 110.2 207.2 112.1 207.0 113.0 M275.0 137.5C275.8 136.3 278.9 133.1 280.0 130.5C281.1 127.9 281.2 123.4 281.5 122.0 M294.0 77.5C294.0 78.1 294.7 79.0 294.0 81.0C293.3 83.0 290.7 88.1 290.0 89.5 M301.0 127.0C301.5 127.5 303.4 129.1 304.0 130.0C304.6 130.9 304.4 132.1 304.5 132.5 M323.5 118.5C325.2 118.5 331.2 118.1 333.5 118.5C335.8 118.9 336.8 120.6 337.5 121.0 M207.5 81.5C207.6 80.0 206.2 75.3 208.0 72.5C209.8 69.7 216.2 66.8 218.0 64.5C219.8 62.2 218.2 60.2 219.0 58.5C219.8 56.8 222.3 55.2 223.0 54.5 M310.0 65.5C309.7 64.4 308.3 60.1 308.0 59.0 M330.5 100.5C329.8 100.8 326.9 101.8 326.5 102.5C326.1 103.2 327.8 104.2 328.0 104.5 M316.5 94.0C316.2 94.4 315.0 95.2 314.5 96.5C314.0 97.8 314.6 100.2 313.5 101.5C312.4 102.8 309.3 103.5 308.0 104.5C306.7 105.5 305.8 106.3 305.5 107.5C305.2 108.7 305.6 110.3 306.0 111.5C306.4 112.7 307.6 112.6 308.0 114.5C308.4 116.4 308.4 121.6 308.5 123.0 M284.5 70.0C284.2 68.5 283.2 62.5 283.0 61.0 M276.5 57.0C277.6 57.7 281.9 60.3 283.0 61.0 M309.5 66.0C307.5 65.4 301.0 63.1 297.5 62.5C294.0 61.9 290.0 62.5 288.5 62.5 M308.0 89.5C308.4 89.2 310.1 89.4 310.5 88.0C310.9 86.6 310.5 82.2 310.5 81.0 M262.0 53.0C260.9 51.5 256.6 45.5 255.5 44.0 M225.5 72.5C225.8 73.2 225.7 74.7 227.0 76.5C228.3 78.3 232.4 82.3 233.5 83.5 M230.0 44.0C231.8 43.8 238.9 43.3 241.0 42.5C243.1 41.7 241.8 39.8 242.5 39.0C243.2 38.2 244.6 38.2 245.0 38.0 M342.5 98.0C341.8 97.1 338.8 95.9 338.0 92.5C337.2 89.1 338.7 80.6 338.0 77.5C337.3 74.4 334.7 74.6 334.0 74.0 M226.5 114.5C228.3 113.9 234.1 113.2 237.5 111.0C240.9 108.8 245.6 105.2 247.0 101.5C248.4 97.8 245.4 92.1 246.0 89.0C246.6 85.9 248.8 84.5 250.5 83.0C252.2 81.5 255.5 80.5 256.5 80.0 M234.0 83.5C234.9 82.8 238.1 79.8 239.5 79.0C240.9 78.2 242.0 79.0 242.5 79.0 M225.5 72.0C225.7 71.8 225.2 71.2 226.5 71.0C227.8 70.8 231.7 72.0 233.0 71.0C234.3 70.0 233.8 66.7 234.5 65.0C235.2 63.3 236.6 61.7 237.0 61.0 M276.0 79.5C276.2 80.5 276.8 84.5 277.0 85.5 M250.0 68.5C251.0 69.4 254.9 72.2 256.0 74.0C257.1 75.8 256.4 78.6 256.5 79.5 M300.0 57.0C300.6 56.9 302.2 56.2 303.5 56.5C304.8 56.8 306.8 58.2 307.5 58.5 M330.5 88.5C330.8 89.1 331.9 90.1 332.0 92.0C332.1 93.9 331.2 98.7 331.0 100.0 M310.0 66.0C310.3 66.2 311.6 66.2 312.0 67.0C312.4 67.8 311.8 69.0 312.5 70.5C313.2 72.0 314.8 74.5 316.0 76.0C317.2 77.5 319.3 78.2 320.0 79.5C320.7 80.8 319.8 83.0 320.0 84.0C320.2 85.0 321.2 85.2 321.5 85.5 M284.0 107.0C283.7 105.7 282.2 101.2 282.0 99.0C281.8 96.8 282.8 95.2 282.5 93.5C282.2 91.8 280.9 89.8 280.0 88.5C279.1 87.2 277.5 86.4 277.0 86.0 M284.0 107.0C285.0 106.8 288.1 107.2 290.0 106.0C291.9 104.8 293.0 101.5 295.5 99.5C298.0 97.5 303.0 95.6 305.0 94.0C307.0 92.4 307.1 90.7 307.5 90.0 M306.0 73.5C304.8 73.7 300.4 73.9 298.5 74.5C296.6 75.1 295.2 76.6 294.5 77.0 M199.0 114.5C199.8 114.2 202.2 112.8 203.5 112.5C204.8 112.2 206.0 112.9 206.5 113.0 M241.0 51.0C241.8 50.9 244.5 50.2 245.5 50.5C246.5 50.8 246.8 52.6 247.0 53.0 M198.5 120.5C198.5 119.6 198.5 115.9 198.5 115.0 M207.5 82.0C208.2 82.1 210.9 82.8 212.0 82.5C213.1 82.2 213.7 80.8 214.0 80.5 M276.5 86.0C275.8 86.3 273.2 86.5 272.5 88.0C271.8 89.5 272.1 93.8 272.0 95.0 M262.0 54.5C262.2 55.0 262.0 56.2 263.0 57.5C264.0 58.8 266.8 60.6 268.0 62.5C269.2 64.4 270.1 67.9 270.5 69.0"/>
+            </g>
+            <g class="lobe" data-region="frontal" tabindex="0" role="button" aria-label="Frontal lobe">
+              <path id="r-frontal" d="M208.5 33.5C207.2 32.6 204.8 31.5 202.0 31.0C199.2 30.5 196.2 29.8 192.0 30.5C187.8 31.2 181.7 34.0 176.5 35.0C171.3 36.0 168.2 34.1 161.0 36.5C153.8 38.9 139.2 45.9 133.0 49.5C126.8 53.1 127.2 55.8 124.0 58.0C120.8 60.2 117.0 60.3 114.0 62.5C111.0 64.7 109.8 68.2 106.0 71.0C102.2 73.8 95.2 76.2 91.0 79.0C86.8 81.8 83.2 84.9 80.5 88.0C77.8 91.1 75.8 94.5 74.5 97.5C73.2 100.5 75.2 102.3 73.0 106.0C70.8 109.7 63.6 116.2 61.0 119.5C58.4 122.8 58.3 122.2 57.5 126.0C56.7 129.8 56.8 137.5 56.0 142.0C55.2 146.5 52.9 148.7 52.5 153.0C52.1 157.3 50.9 161.7 53.5 168.0C56.1 174.3 63.8 186.5 68.0 191.0C72.2 195.5 74.3 194.7 78.5 195.0C82.7 195.3 89.6 193.1 93.0 193.0C96.4 192.9 97.8 193.7 99.0 194.5C100.2 195.3 101.6 196.5 100.5 198.0C99.4 199.5 93.8 202.1 92.5 203.5C91.2 204.9 92.4 205.7 93.0 206.5C93.6 207.3 94.1 208.2 96.0 208.5C97.9 208.8 101.5 208.8 104.5 208.0C107.5 207.2 109.9 204.6 114.0 203.5C118.1 202.4 126.1 202.2 129.0 201.5C131.9 200.8 130.8 202.4 131.5 199.5C132.2 196.6 131.4 188.6 133.5 184.0C135.6 179.4 142.0 174.8 144.0 172.0C146.0 169.2 144.2 169.1 145.5 167.5C146.8 165.9 149.8 165.0 152.0 162.5C154.2 160.0 155.8 155.2 159.0 152.5C162.2 149.8 167.8 148.2 171.0 146.0C174.2 143.8 175.9 140.5 178.5 139.0C181.1 137.5 184.4 138.2 186.5 137.0C188.6 135.8 191.2 134.0 191.0 131.5C190.8 129.0 186.1 124.9 185.0 122.0C183.9 119.1 184.2 116.4 184.5 114.0C184.8 111.6 184.9 110.2 187.0 107.5C189.1 104.8 195.3 100.5 197.0 97.5C198.7 94.5 197.8 92.1 197.0 89.5C196.2 86.9 192.9 84.1 192.0 82.0C191.1 79.9 191.0 79.6 191.5 77.0C192.0 74.4 192.1 71.1 195.0 66.5C197.9 61.9 206.5 54.5 209.0 49.5C211.5 44.5 210.1 39.2 210.0 36.5C209.9 33.8 209.8 34.4 208.5 33.5Z"/>
+              <path class="gyri" clip-path="url(#c-frontal)" d="M93.5 124.5C93.2 124.8 92.2 124.8 92.0 126.0C91.8 127.2 92.0 131.0 92.0 132.0 M104.5 183.0C103.4 182.9 100.0 183.2 98.0 182.5C96.0 181.8 93.9 179.2 92.5 178.5C91.1 177.8 90.9 178.8 89.5 178.0C88.1 177.2 86.3 175.2 84.0 174.0C81.7 172.8 76.9 171.1 75.5 170.5 M171.0 40.5C169.1 41.4 162.3 45.3 159.5 46.0C156.7 46.7 154.9 44.8 154.0 44.5 M178.5 110.5C178.4 109.7 179.1 107.2 178.0 105.5C176.9 103.8 173.0 103.2 172.0 100.0C171.0 96.8 170.7 89.9 172.0 86.5C173.3 83.1 178.6 81.1 180.0 79.5C181.4 77.9 180.5 78.1 180.5 77.0C180.5 75.9 180.9 73.8 180.0 73.0C179.1 72.2 175.8 72.2 175.0 72.0 M66.0 149.5C66.0 149.8 66.7 150.2 66.0 151.0C65.3 151.8 62.8 153.2 62.0 154.5C61.2 155.8 61.2 157.8 61.0 158.5 M134.5 78.0C134.4 77.8 133.6 77.8 134.0 77.0C134.4 76.2 135.7 74.5 137.0 73.5C138.3 72.5 140.6 71.4 142.0 71.0C143.4 70.6 144.7 71.2 145.5 71.0C146.3 70.8 146.8 70.3 147.0 69.5C147.2 68.7 146.5 67.9 147.0 66.0C147.5 64.1 150.1 59.8 150.0 58.0C149.9 56.2 147.1 55.9 146.5 55.5 M82.5 117.0C83.1 116.1 85.2 113.2 86.0 111.5C86.8 109.8 87.1 107.9 87.0 106.5C86.9 105.1 86.2 103.6 85.5 103.0C84.8 102.4 83.0 103.0 82.5 103.0 M110.5 148.5C109.9 149.5 108.8 153.2 107.0 154.5C105.2 155.8 101.8 156.9 100.0 156.5C98.2 156.1 96.7 152.8 96.0 152.0 M174.5 64.5C174.5 65.7 174.5 70.3 174.5 71.5 M75.0 170.0C74.8 169.1 74.2 165.4 74.0 164.5 M119.0 103.5C118.2 102.2 114.8 98.2 114.0 96.0C113.2 93.8 113.6 92.2 114.0 90.5C114.4 88.8 115.5 87.2 116.5 86.0C117.5 84.8 119.4 83.5 120.0 83.0 M66.5 149.0C67.4 149.2 70.0 148.4 72.0 150.0C74.0 151.6 76.3 157.0 78.5 158.5C80.7 160.0 83.2 158.6 85.0 159.0C86.8 159.4 88.6 160.3 89.5 161.0C90.4 161.7 90.3 162.7 90.5 163.0 M109.5 137.5C108.3 136.6 103.6 134.7 102.5 132.0C101.4 129.3 102.9 123.2 103.0 121.5 M85.0 145.0C86.0 144.9 89.7 144.3 91.0 144.5C92.3 144.7 92.7 145.8 93.0 146.0 M132.0 130.5C133.0 131.8 136.7 136.2 138.0 138.5C139.3 140.8 138.6 142.0 140.0 144.0C141.4 146.0 145.4 149.4 146.5 150.5 M134.5 175.5C133.5 174.8 129.5 171.8 128.5 171.0 M66.0 149.0C65.6 148.0 63.9 144.0 63.5 143.0 M71.5 128.0C72.3 128.7 75.5 130.7 76.5 132.0C77.5 133.3 77.3 135.3 77.5 136.0 M67.0 173.0C68.2 172.6 73.2 170.9 74.5 170.5 M94.0 90.5C95.2 88.9 100.2 82.6 101.5 81.0 M173.0 48.5C172.6 48.5 171.3 48.1 170.5 48.5C169.7 48.9 168.4 50.1 168.0 51.0C167.6 51.9 168.7 52.4 168.0 54.0C167.3 55.6 164.7 58.5 164.0 60.5C163.3 62.5 164.0 65.1 164.0 66.0 M152.0 77.0C153.3 76.6 158.7 74.9 160.0 74.5 M152.0 77.0C151.8 77.9 151.1 81.2 150.5 82.5C149.9 83.8 149.5 84.0 148.5 84.5C147.5 85.0 145.2 85.3 144.5 85.5 M156.0 141.0C155.7 140.2 155.7 138.2 154.0 136.0C152.3 133.8 148.8 134.0 146.0 128.0C143.2 122.0 139.3 105.0 137.5 100.0C135.7 95.0 136.4 98.2 135.0 98.0C133.6 97.8 130.6 97.8 129.0 98.5C127.4 99.2 127.1 101.7 125.5 102.5C123.9 103.3 120.5 103.3 119.5 103.5 M126.0 87.0C127.0 86.3 130.8 84.0 132.0 83.0C133.2 82.0 132.8 81.3 133.0 81.0 M98.0 169.0C98.1 169.8 97.5 171.9 98.5 173.5C99.5 175.1 102.2 178.0 104.0 178.5C105.8 179.0 106.0 176.8 109.0 176.5C112.0 176.2 118.9 177.3 122.0 176.5C125.1 175.7 126.6 172.3 127.5 171.5 M111.5 139.0C113.6 140.8 121.0 146.4 124.0 149.5C127.0 152.6 127.2 155.4 129.5 157.5C131.8 159.6 135.8 161.1 138.0 162.0C140.2 162.9 142.2 162.8 143.0 163.0 M187.5 56.5C186.8 56.5 184.8 56.9 183.0 56.5C181.2 56.1 178.1 55.3 176.5 54.0C174.9 52.7 174.0 49.4 173.5 48.5 M183.5 39.5C183.1 40.1 182.7 41.6 181.0 43.0C179.3 44.4 174.8 47.2 173.5 48.0 M92.5 132.5C93.1 132.8 94.9 133.1 96.0 134.5C97.1 135.9 98.1 139.6 99.0 141.0C99.9 142.4 101.1 142.7 101.5 143.0 M76.0 109.0C76.2 108.2 76.4 105.2 77.0 104.5C77.6 103.8 79.1 104.5 79.5 104.5 M169.5 133.0C168.7 132.7 165.8 131.9 164.5 131.0C163.2 130.1 162.4 129.7 162.0 127.5C161.6 125.3 162.5 121.2 162.0 118.0C161.5 114.8 159.5 110.1 159.0 108.5 M96.0 115.5C96.1 116.3 95.4 119.6 96.5 120.5C97.6 121.4 101.5 120.9 102.5 121.0 M122.5 70.5C120.2 72.2 111.2 78.5 108.5 81.0C105.8 83.5 106.4 83.6 106.0 85.5C105.6 87.4 106.0 91.3 106.0 92.5 M71.0 127.5C70.8 126.3 69.4 123.0 70.0 120.5C70.6 118.0 73.8 113.8 74.5 112.5 M142.5 51.0C142.2 51.0 140.8 50.4 140.5 51.0C140.2 51.6 140.5 53.9 140.5 54.5"/>
+            </g>
+            <g class="lobe" data-region="temporal" tabindex="0" role="button" aria-label="Temporal lobe">
+              <path id="r-temporal" d="M312.0 149.0C307.4 147.2 285.0 147.4 277.0 146.0C269.0 144.6 267.7 142.6 264.0 140.5C260.3 138.4 256.4 136.4 255.0 133.5C253.6 130.6 256.3 125.4 255.5 123.0C254.7 120.6 251.8 119.7 250.0 119.0C248.2 118.3 247.6 118.2 245.0 119.0C242.4 119.8 239.8 122.9 234.5 123.5C229.2 124.1 219.4 121.2 213.5 122.5C207.6 123.8 202.2 129.0 199.0 131.5C195.8 134.0 196.3 136.6 194.5 137.5C192.7 138.4 190.7 136.7 188.0 137.0C185.3 137.3 181.3 137.9 178.5 139.5C175.7 141.1 174.2 144.2 171.0 146.5C167.8 148.8 162.1 150.3 159.0 153.0C155.9 155.7 154.7 160.1 152.5 162.5C150.3 164.9 147.3 165.9 146.0 167.5C144.7 169.1 146.1 170.0 144.5 172.0C142.9 174.0 138.3 177.2 136.5 179.5C134.7 181.8 134.3 181.5 133.5 185.5C132.7 189.5 132.2 199.8 131.5 203.5C130.8 207.2 129.3 205.1 129.0 207.5C128.7 209.9 128.3 214.5 129.5 218.0C130.7 221.5 133.7 226.6 136.0 228.5C138.3 230.4 141.3 228.6 143.5 229.5C145.7 230.4 146.3 233.3 149.0 234.0C151.7 234.7 156.5 232.4 159.5 233.5C162.5 234.6 163.9 239.2 167.0 240.5C170.1 241.8 173.3 241.9 178.0 241.5C182.7 241.1 191.2 239.9 195.0 238.0C198.8 236.1 197.1 232.0 201.0 230.0C204.9 228.0 214.4 229.1 218.5 226.0C222.6 222.9 223.2 214.9 225.5 211.5C227.8 208.1 230.2 207.0 232.5 205.5C234.8 204.0 237.2 203.9 239.0 202.5C240.8 201.1 237.6 198.0 243.0 197.0C248.4 196.0 264.7 197.8 271.5 196.5C278.3 195.2 279.8 191.0 284.0 189.5C288.2 188.0 294.4 188.4 297.0 187.5C299.6 186.6 299.1 185.8 299.5 184.0C299.9 182.2 298.6 180.5 299.5 177.0C300.4 173.5 304.2 166.4 305.0 163.0C305.8 159.6 303.3 158.8 304.5 156.5C305.7 154.2 316.6 150.8 312.0 149.0Z"/>
+              <path class="gyri" clip-path="url(#c-temporal)" d="M222.5 200.5C221.2 200.2 217.2 199.8 215.0 198.5C212.8 197.2 210.8 193.8 209.0 192.5C207.2 191.2 205.7 191.2 204.5 191.0C203.3 190.8 202.4 191.4 202.0 191.5 M178.5 232.0C178.4 232.2 179.2 232.9 178.0 233.0C176.8 233.1 172.6 232.6 171.5 232.5 M218.5 154.5C219.8 154.5 223.2 153.4 226.0 154.5C228.8 155.6 233.5 159.9 235.0 161.0 M219.5 215.0C218.5 214.8 214.7 214.3 213.5 214.0C212.3 213.7 212.6 213.8 212.5 213.0C212.4 212.2 212.9 209.7 213.0 209.0 M169.0 237.5C168.3 237.2 165.8 236.2 165.0 235.5C164.2 234.8 164.2 233.8 164.0 233.5 M191.0 189.0C190.6 190.3 188.9 195.7 188.5 197.0 M162.0 218.5C162.0 217.0 162.0 211.0 162.0 209.5 M239.5 144.0C239.0 143.4 236.9 141.8 236.5 140.5C236.1 139.2 235.6 137.8 237.0 136.5C238.4 135.2 243.4 133.9 245.0 133.0C246.6 132.1 246.2 131.3 246.5 131.0 M228.5 199.0C228.0 198.9 226.4 198.2 225.5 198.5C224.6 198.8 223.4 200.2 223.0 200.5 M222.5 201.0C222.3 201.7 222.1 203.9 221.5 205.0C220.9 206.1 219.4 207.1 219.0 207.5 M171.5 238.0C173.0 237.9 177.8 238.1 180.5 237.5C183.2 236.9 186.3 235.0 187.5 234.5 M268.5 176.5C268.2 176.8 267.8 178.3 266.5 178.5C265.2 178.7 261.5 177.7 260.5 177.5 M174.5 211.0C174.4 207.0 174.1 191.0 174.0 187.0 M168.5 178.5C168.5 177.5 167.2 174.8 168.5 172.5C169.8 170.2 174.9 166.8 176.5 165.0C178.1 163.2 177.8 163.8 178.0 162.0C178.2 160.2 177.8 156.6 178.0 154.5C178.2 152.4 179.2 150.3 179.5 149.5 M177.0 212.5C176.9 213.7 177.2 217.8 176.5 219.5C175.8 221.2 174.8 222.0 173.0 222.5C171.2 223.0 167.3 223.0 165.5 222.5C163.7 222.0 162.6 220.0 162.0 219.5 M207.5 178.5C207.9 178.2 208.0 177.3 210.0 177.0C212.0 176.7 217.2 176.8 219.5 176.5C221.8 176.2 223.2 175.2 224.0 175.0 M207.5 178.5C206.3 178.6 203.0 177.9 200.5 179.0C198.0 180.1 194.0 183.4 192.5 185.0C191.0 186.6 191.7 187.9 191.5 188.5 M256.0 173.0C256.0 173.7 255.3 176.2 256.0 177.0C256.7 177.8 259.3 177.4 260.0 177.5 M192.0 176.5C191.2 176.2 188.9 174.2 187.0 174.5C185.1 174.8 182.5 177.6 180.5 178.5C178.5 179.4 175.9 179.8 175.0 180.0 M243.0 188.0C243.2 188.4 241.7 190.1 244.0 190.5C246.3 190.9 254.8 190.5 257.0 190.5 M253.5 153.5C252.0 153.7 247.6 153.2 244.5 154.5C241.4 155.8 236.6 159.9 235.0 161.0 M253.5 153.5C253.6 154.5 253.9 158.5 254.0 159.5 M232.0 136.5C231.0 137.0 228.6 138.8 226.0 139.5C223.4 140.2 218.8 141.0 216.5 141.0C214.2 141.0 213.5 140.5 212.5 139.5C211.5 138.5 210.8 135.8 210.5 135.0 M236.5 128.5C235.9 128.2 234.5 127.2 233.0 127.0C231.5 126.8 228.4 127.4 227.5 127.5 M283.0 180.5C281.9 181.0 277.9 183.1 276.5 183.5C275.1 183.9 274.8 183.1 274.5 183.0 M133.0 211.0C133.1 212.1 133.4 216.4 133.5 217.5 M190.5 215.0C190.9 214.9 191.5 216.0 193.0 214.5C194.5 213.0 197.7 207.2 199.5 206.0C201.3 204.8 202.4 206.1 204.0 207.5C205.6 208.9 208.2 213.3 209.0 214.5 M141.0 216.0C140.7 216.6 139.4 218.1 139.0 219.5C138.6 220.9 137.9 223.5 138.5 224.5C139.1 225.5 141.8 225.3 142.5 225.5 M136.0 205.0C135.9 204.5 135.2 202.8 135.5 202.0C135.8 201.2 137.6 200.3 138.0 200.0 M168.0 179.0C167.5 179.3 165.9 180.7 165.0 181.0C164.1 181.3 162.9 181.0 162.5 181.0 M286.0 162.0C285.4 162.1 284.4 161.7 282.5 162.5C280.6 163.3 276.7 166.2 274.5 167.0C272.3 167.8 270.3 167.4 269.5 167.5 M257.5 149.5C258.2 149.2 260.8 148.7 262.0 148.0C263.2 147.3 264.1 145.9 264.5 145.5 M161.5 219.0C158.8 219.0 147.8 219.0 145.0 219.0 M229.5 172.0C230.2 171.2 233.1 169.3 234.0 167.5C234.9 165.7 234.8 162.1 235.0 161.0 M199.5 144.0C199.8 144.9 200.1 148.3 201.0 149.5C201.9 150.7 202.8 150.8 205.0 151.0C207.2 151.2 212.6 150.4 214.5 150.5C216.4 150.6 216.0 150.8 216.5 151.5C217.0 152.2 217.3 154.0 217.5 154.5"/>
+            </g>
+            <path class="shade" d="M80.5 88.0C77.8 91.1 75.8 94.5 74.5 97.5C73.2 100.5 75.2 102.3 73.0 106.0C70.8 109.7 63.6 116.2 61.0 119.5C58.4 122.8 58.3 122.2 57.5 126.0C56.7 129.8 56.8 137.5 56.0 142.0C55.2 146.5 52.9 148.7 52.5 153.0C52.1 157.3 50.9 161.7 53.5 168.0C56.1 174.3 63.8 186.5 68.0 191.0C72.2 195.5 74.3 194.7 78.5 195.0C82.7 195.3 89.6 193.1 93.0 193.0C96.4 192.9 97.8 193.7 99.0 194.5C100.2 195.3 101.6 196.5 100.5 198.0C99.4 199.5 93.8 202.1 92.5 203.5C91.2 204.9 92.4 205.7 93.0 206.5C93.6 207.3 94.1 208.2 96.0 208.5C97.9 208.8 101.5 208.8 104.5 208.0C107.5 207.2 109.9 204.6 114.0 203.5C118.1 202.4 126.2 201.6 129.0 201.5C131.8 201.4 131.0 202.0 131.0 203.0C131.0 204.0 129.3 205.2 129.0 207.5C128.7 209.8 127.8 213.0 129.0 216.5C130.2 220.0 133.6 226.3 136.0 228.5C138.4 230.7 141.3 228.6 143.5 229.5C145.7 230.4 146.3 233.3 149.0 234.0C151.7 234.7 156.9 232.6 159.5 233.5C162.1 234.4 162.6 238.2 164.5 239.5C166.4 240.8 166.9 241.4 171.0 241.5C175.1 241.6 184.8 240.8 189.0 240.0C193.2 239.2 194.5 238.7 196.5 237.0C198.5 235.3 197.7 231.8 201.0 230.0C204.3 228.2 211.5 225.6 216.5 226.5C221.5 227.4 224.8 230.0 231.0 235.5C237.2 241.0 245.8 252.3 253.5 259.5C261.2 266.7 271.6 273.3 277.5 278.5C283.4 283.7 285.5 286.0 289.0 290.5C292.5 295.0 294.9 302.9 298.5 305.5C302.1 308.1 307.2 306.6 310.5 306.0C313.8 305.4 316.8 303.5 318.0 302.0C319.2 300.5 319.7 302.5 318.0 297.0C316.3 291.5 307.7 276.0 308.0 269.0C308.3 262.0 315.5 258.2 320.0 255.0C324.5 251.8 330.9 251.9 335.0 250.0C339.1 248.1 340.8 247.3 344.5 243.5C348.2 239.7 355.0 231.2 357.5 227.0C360.0 222.8 358.4 221.1 359.5 218.5C360.6 215.9 363.5 213.9 364.0 211.5C364.5 209.1 362.4 207.8 362.5 204.0C362.6 200.2 364.6 192.8 364.5 189.0C364.4 185.2 360.5 183.8 362.0 181.5C363.5 179.2 369.9 179.9 373.5 175.5C377.1 171.1 382.2 160.1 383.5 155.0C384.8 149.9 381.4 148.2 381.5 145.0C381.6 141.8 383.8 138.8 384.0 135.5C384.2 132.2 385.2 129.3 383.0 125.5C380.8 121.7 373.4 116.6 370.5 112.5C367.6 108.4 368.0 104.2 365.5 101.0C363.0 97.8 357.2 95.7 355.5 93.0C353.8 90.3 356.6 87.8 355.5 85.0C354.4 82.2 353.1 78.8 349.0 76.0C344.9 73.2 335.2 70.9 331.0 68.5C326.8 66.1 326.1 62.8 324.0 61.5C321.9 60.2 320.8 61.9 318.5 60.5C316.2 59.1 314.0 55.2 310.5 53.0C307.0 50.8 304.8 49.2 297.5 47.0C290.2 44.8 272.5 41.7 266.5 40.0C260.5 38.3 264.7 37.8 261.5 37.0C258.3 36.2 251.5 36.4 247.5 35.5C243.5 34.6 242.0 32.3 237.5 31.5C233.0 30.7 225.6 30.2 220.5 30.5C215.4 30.8 210.1 32.9 207.0 33.0C203.9 33.1 204.5 31.4 202.0 31.0C199.5 30.6 196.2 29.8 192.0 30.5C187.8 31.2 181.2 34.2 176.5 35.0C171.8 35.8 170.8 33.3 164.0 35.5C157.2 37.7 142.2 44.2 135.5 48.0C128.8 51.8 127.6 55.6 124.0 58.0C120.4 60.4 117.0 60.3 114.0 62.5C111.0 64.7 109.8 68.2 106.0 71.0C102.2 73.8 95.2 76.2 91.0 79.0C86.8 81.8 83.2 84.9 80.5 88.0Z"/>
+          </g>
+          <!-- labels with leader lines -->
+          <g class="labels">
+            <path d="M62 34 L112 92 M300 22 L284 70 M404 92 L358 134 M62 282 L170 222 M222 330 L292 292 M404 292 L338 246"/>
+            <text class="lbl-frontal" data-region="frontal" x="8" y="26">Frontal Lobe</text>
+            <text class="lbl-parietal" data-region="parietal" x="300" y="16" text-anchor="middle">Parietal Lobe</text>
+            <text class="lbl-occipital" x="436" y="70" text-anchor="end">Occipital</text>
+            <text class="lbl-occipital" x="436" y="86" text-anchor="end">Lobe</text>
+            <text class="lbl-temporal" data-region="temporal" x="8" y="292">Temporal Lobe</text>
+            <text class="lbl-stem" x="216" y="342" text-anchor="end">Brain Stem</text>
+            <text class="lbl-cerebellum" x="436" y="306" text-anchor="end">Cerebellum</text>
+          </g>
+        </svg>
+      </div>
+      <svg class="cone" aria-hidden="true"></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 7b. NOISE CANCELLATION (FPGA) ============ -->
+<section class="page" id="noise" data-label="Noise Cancellation">
+  <div class="inner">
+    <h2 class="page-title">Noise Cancellation on FPGA</h2>
+    <div class="nc-top">
+      <blockquote class="quote nc-text">
+        <p class="kicker">Signals &amp; Systems mini-project · KMUTNB · 2024</p>
+        <p>This was a mini-project for Introduction to Signals &amp; Systems, done with two classmates. The plan was simple on paper. An INMP441 microphone sends audio over I2S into a Cyclone V FPGA, an FIR filter on the chip removes the noise, and the cleaned audio goes out through a CH343 USB-UART to a laptop.</p>
+        <p>Getting the sound out turned out to be the hard part. Our 16-bit samples kept arriving scrambled, so we kept only the top 8 bits and put a FIFO in front of the UART. Our first board didn't have enough RAM for that FIFO, so we moved to a DE0-CV, then tried baud rate after baud rate until around 460k finally gave clean data.</p>
+        <p>The filter is where we had to compromise. The VHDL version gave garbage until we switched the coefficients to fixed point, and even then it wasn't good enough. So the final filtering ran in Python on the recorded audio (a 101-tap band-pass from 300 to 2000 Hz). The FFT showed our 4 kHz test tone gone, with a little noise left over.</p>
+        <p>You can try the same idea below. Pick a noisy clip, pick a filter, and listen.</p>
+      </blockquote>
+      <div class="nc-fig iso" data-theme="light" id="nc-fig">
+        <p class="nc-fallback note">FPGA board · loading the drawing…</p>
+      </div>
+    </div>
+
+    <div class="nc-bottom">
+      <div class="nc-col">
+        <p class="note big">Sample voice</p>
+        <div class="nc-samples" id="nc-samples"></div>
+      </div>
+      <div class="nc-col">
+        <p class="note big">Filter</p>
+        <div class="nc-filters" id="nc-filters"></div>
+      </div>
+      <div class="nc-col nc-result">
+        <p class="note big">Result</p>
+        <button class="nc-wave nc-out" id="nc-out" type="button" aria-label="Play the filtered result" disabled>
+          <canvas width="420" height="64"></canvas>
+          <span class="nc-wave-label" id="nc-out-label">pick a filter</span>
+        </button>
+        <p class="nc-verdict" id="nc-verdict" aria-live="polite"></p>
+        <figure class="nc-spec">
+          <div class="nc-legend">
+            <span><i class="key before"></i>noisy</span>
+            <span><i class="key after"></i>filtered</span>
+            <span><i class="key band"></i>filter passes</span>
+          </div>
+          <div class="nc-spec-wrap">
+            <canvas id="nc-spec" width="420" height="150" aria-label="Spectrum of the noisy clip and the filtered result"></canvas>
+            <div class="nc-spec-tip" id="nc-spec-tip" hidden></div>
+          </div>
+          <figcaption>Spectrum (dB) · 50 Hz to 8 kHz, log scale</figcaption>
+        </figure>
+      </div>
+    </div>
+    <p class="nc-credit">Music: Chopin, Nocturne Op. 9 No. 2, recording from Classicals.de (12 s excerpt). Noise and filtering are computed live in your browser.</p>
+  </div>
+</section>
+
+<!-- ============ 8. PROFESSIONAL EXPERIENCE ============ -->
+<section class="page" id="experience" data-label="Experience">
+  <div class="inner">
+    <h2 class="page-title">Professional Experience</h2>
+    <div class="xp">
+      <p class="xp-role">Internship at</p>
+      <p class="xp-company">TCC Technology</p>
+      <p class="xp-with">Worked with <span>ThaiBev</span> <span>Oishi</span> <span lang="th">แสงโสม</span></p>
+      <p class="xp-date">June 2026 – Present</p>
+      <p class="xp-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum id ligula porta felis euismod semper. Nulla vitae elit libero, a pharetra augue.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 9. SOLAR FORECASTING ============ -->
+<section class="page" id="solar" data-label="Solar Forecasting">
+  <div class="inner">
+    <h2 class="page-title">Solar Generation Forecasting</h2>
+    <blockquote class="quote">
+      <p>This was the first project I got to work on during my internship at TCC Technology. A solar power plant comes with a lot of questions. When should the panels be cleaned, and when is the most efficient time to do it? When does a drop in output mean it's time to make an insurance claim? Which part of the year do the panels produce the most energy? And if they want to build new panels, where is the best place to put them?</p>
+      <p>Every one of those questions needs data to answer, and my job is to provide that data. I started by gathering information about the power plant, then cleaning it and digging into it to find what actually drives the output. From there I worked out which model architecture fits the job best.</p>
+      <p>It's a really fun project. It's the first time I've worked with real data, which is a lot messier than anything from class, and I did a lot of research along the way because I didn't want to let them down in my first job. The project is still ongoing, and I've already learned a lot: forecasting, machine learning, MLPs, data cleaning, data analysis, finding correlations, and plenty of small details in between.</p>
+    </blockquote>
+    <div class="solar-bottom">
+      <div class="solar-scene" id="solar-scene">
+        <p class="note scene-hint">move your mouse here and the cloud follows</p>
+        <div class="sun" aria-hidden="true"></div>
+        <div class="cloud" id="cloud" aria-hidden="true">
+          <svg viewBox="0 0 160 70"><path d="M30 60 C12 60 6 44 18 36 C14 20 34 12 46 20 C52 6 78 2 88 16 C100 6 124 10 124 26 C142 24 154 38 146 50 C150 58 142 62 134 60 Z"/></svg>
+          <div class="rain"></div>
+        </div>
+        <div class="panels" id="panels"></div>
+      </div>
+      <div class="sensor">
+        <div class="readings">
+          <div><span class="r-label">sunlight</span><span class="r-val" id="r-sun">2.3</span></div>
+          <div><span class="r-label">temp</span><span class="r-val" id="r-temp">30°C</span></div>
+          <div><span class="r-label">now kW</span><span class="r-val" id="r-now">30</span></div>
+        </div>
+        <svg class="robot" viewBox="0 0 90 100" aria-hidden="true">
+          <line x1="45" y1="6" x2="45" y2="16"/><circle cx="45" cy="5" r="3"/>
+          <rect x="15" y="16" width="60" height="46" rx="8"/>
+          <circle cx="33" cy="34" r="6"/><circle cx="57" cy="34" r="6"/>
+          <rect x="28" y="46" width="34" height="10" rx="2"/>
+          <path d="M36 46 v10 M45 46 v10 M54 46 v10"/>
+          <line x1="45" y1="62" x2="45" y2="80"/><circle cx="45" cy="84" r="4"/>
+        </svg>
+        <div class="forecast">
+          <span class="r-label">next hour</span>
+          <span class="r-val big" id="r-next">100 kW</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10. COGENERATION ============ -->
+<section class="page" id="cogen" data-label="Cogeneration">
+  <div class="inner">
+    <h2 class="page-title">Cogeneration Plant Monitoring</h2>
+    <blockquote class="quote">
+      <p>This one was smaller, more of a task than a full project. A cogeneration plant makes electricity and heat from the same fuel at once, and this one runs at a real brewery site. My job was to build a web page to monitor the data coming from it.</p>
+      <p>I wrote both sides: the backend module that pulls the plant's data, and the frontend that visualizes it. Along the way I learned to work with a time-series database and to use the dataset much more efficiently, so the page only loads what it actually needs.</p>
+    </blockquote>
+    <div class="cogen-flow">
+      <svg class="plant" viewBox="0 0 190 160" aria-label="Plant">
+        <g class="smoke"><path d="M40 34 C34 24 46 18 40 6"/><path d="M52 34 C46 22 58 16 52 2"/><path d="M64 34 C58 24 70 18 64 8"/></g>
+        <path d="M18 156 C28 120 30 84 26 40 L78 40 C72 84 74 120 86 156 Z"/>
+        <path d="M27 64 L77 64 M24 100 L80 100"/>
+        <rect x="96" y="90" width="86" height="66" rx="3"/>
+        <path d="M104 100 h70 v14 h-70 Z M121 100 v14 M139 100 v14 M156 100 v14"/>
+        <rect x="128" y="126" width="22" height="30"/>
+      </svg>
+      <div class="flow-arrow" aria-hidden="true"><i></i><i></i><i></i></div>
+      <svg class="dbs" viewBox="0 0 150 130" aria-label="Database">
+        <g transform="translate(6 18)"><path d="M0 12 v84 a32 10 0 0 0 64 0 v-84"/><ellipse cx="32" cy="12" rx="32" ry="10"/><path d="M0 40 a32 10 0 0 0 64 0 M0 68 a32 10 0 0 0 64 0"/></g>
+        <g transform="translate(78 18)"><path d="M0 12 v84 a32 10 0 0 0 64 0 v-84"/><ellipse cx="32" cy="12" rx="32" ry="10"/><path d="M0 40 a32 10 0 0 0 64 0 M0 68 a32 10 0 0 0 64 0"/></g>
+        <path d="M40 22 C46 2 102 2 108 22"/>
+      </svg>
+      <div class="flow-arrow" aria-hidden="true"><i></i><i></i><i></i></div>
+      <div class="cogen-charts">
+        <svg class="bars" id="cogen-bars" viewBox="0 0 170 130" aria-label="Output (mock)"></svg>
+        <div class="gauge">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <circle class="g-track" cx="50" cy="50" r="40"/>
+            <circle class="g-fill" id="g-fill" cx="50" cy="50" r="40" pathLength="100"/>
+          </svg>
+          <span class="g-val" id="g-val">78%</span>
+          <span class="r-label">efficiency</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11. WAREHOUSE SAFETY ============ -->
+<section class="page" id="warehouse" data-label="Warehouse Safety">
+  <div class="inner">
+    <h2 class="page-title">Warehouse Safety Policy</h2>
+    <blockquote class="quote">
+      <p>A warehouse has a lot of rules. Some are simple, like no smoking and wearing your safety vest at all times, and those are easy to check on site. Forklifts are a different story. There are a lot of forklift violations, and honestly nobody really cared about forklift safety. So they decided to build a computer vision system that catches the violations and the drivers behind them.</p>
+      <p>My job is to build the models that detect them. There are more than three rules, but these are the three I've got working so far.</p>
+    </blockquote>
+    <div class="wh-grid" id="wh-grid">
+      <button class="forklift" data-key="lift" style="grid-area:f1" type="button"><span class="note">Lifting forks while moving</span></button>
+      <div class="wh-box" id="wh-box" style="grid-area:box" aria-live="polite"></div>
+      <button class="forklift" data-key="over" style="grid-area:f2" type="button"><span class="note">Overloaded cargo</span></button>
+      <button class="forklift" data-key="push" style="grid-area:f3" type="button"><span class="note">Pushing cargo</span></button>
+      <svg class="cone" aria-hidden="true"></svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 12. RESEARCH ============ -->
+<section class="page" id="research" data-label="Research">
+  <div class="inner">
+    <h2 class="page-title">Research &amp; Publication</h2>
+    <article class="paper">
+      <h3>ASDL-2</h3>
+      <p class="cite"><strong>P. Paeyai</strong>, T. Chansuk, P. Vorasayan, K. Srisomboon, W. Lee, V. Sa-ing. "Alzheimer Screening Using Clock Drawing Scores Based on Deep Learning: ASDL-2." <em>2025 International Conference on Information Technologies (InfoTech-2025)</em>.</p>
+      <blockquote class="quote">
+        <p>ASDL-2 extends our earlier ASDL work from binary screening to a structured 0–3 clinical scoring rubric for the clock drawing: clock shape, number placement and hand position. That reframes the task as four-class classification, with clinically interpretable output instead of a single AD/HC label.</p>
+        <p>We benchmarked DenseNet-201 against ResNet50, EfficientNet-B7 and XGBoost on a held-out test set from the same hospital source, and DenseNet-201 led on every metric (F1 90.61 vs. 83.50, 78.83 and 47.50). The raw dataset had a 200:24 class imbalance between score-3 and score-0 drawings, so we rebalanced the training set with flipping, cropping and random-erasing augmentation before it reached the model. As in the first paper, we used Score-CAM to keep the finer-grained scoring model's decisions clinically interpretable.</p>
+      </blockquote>
+    </article>
+    <article class="paper">
+      <h3>Ear Recognition</h3>
+      <p class="cite"><strong>P. Paeyai</strong>, K. Srisomboon, T. Chansuk, W. Lee, K. Wasayangkool, V. Sa-ing. "Ear Biometric Recognition Using Deep Learning." In press, <em>2026 14th International Electrical Engineering Congress (iEECON 2026)</em>.</p>
+      <blockquote class="quote">
+        <p>We benchmarked ResNet-50, EfficientNet-B0 and ViT-B/16 for ear biometric verification, telling genuine pairs from impostor pairs, on the AMI Ear Dataset (107 subjects, 7 images each). EfficientNet-B0 gave the best overall result (AUC 0.9893, accuracy 97.82%, F1 0.7986), ahead of ResNet-50 (AUC 0.9816). ViT-B/16 had the highest recall (0.8032) but the weakest precision (0.7398): more tolerant of variation, at the cost of more false accepts.</p>
+        <p>This result is what selected EfficientNet as the backbone for the Ear Biometric system in my projects. The two are one research line, not two independent efforts.</p>
+      </blockquote>
+    </article>
+  </div>
+</section>
+
+<!-- ============ 13. ABOUT / CONTACT ============ -->
+<section class="page" id="about" data-label="Contact">
+  <div class="inner">
+    <h2 class="page-title">Pumasin Paeyai</h2>
+    <h3 class="sub-title">Programming Languages &amp; Tools</h3>
+    <blockquote class="quote">
+      <dl class="skills">
+        <div><dt>Languages</dt><dd><span class="chip">JavaScript</span><span class="chip">SQL</span><span class="chip">Go</span><span class="chip hot">Python</span><span class="chip">C++</span><span class="chip">VHDL</span></dd></div>
+        <div><dt>Frameworks &amp; Libraries</dt><dd><span class="chip">Gin</span><span class="chip">React</span><span class="chip">Node.js</span><span class="chip">Flask</span><span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">YOLOv8</span><span class="chip">scikit-learn</span><span class="chip">Matplotlib</span><span class="chip">Electron</span></dd></div>
+        <div><dt>AI / ML</dt><dd><span class="chip">TensorFlow</span><span class="chip hot">PyTorch</span><span class="chip">scikit-learn</span><span class="chip">OpenCV</span><span class="chip">LLM / RAG</span></dd></div>
+        <div><dt>Infrastructure &amp; Tools</dt><dd><span class="chip hot">Docker</span><span class="chip">Microsoft Azure</span><span class="chip hot">PostgreSQL</span><span class="chip">Git</span><span class="chip">n8n</span><span class="chip">Jenkins</span><span class="chip">Kubernetes</span><span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">Jaeger</span><span class="chip">RabbitMQ</span><span class="chip">MQTT</span><span class="chip">Home Assistant</span><span class="chip">Microcontrollers</span></dd></div>
+        <div><dt>Hardware</dt><dd><span class="chip">ESP32</span><span class="chip">Arduino</span><span class="chip hot">STM32</span><span class="chip hot">FPGA</span><span class="chip">Raspberry Pi</span></dd></div>
+      </dl>
+    </blockquote>
+    <div class="about-row about-3">
+      <div>
+        <h3 class="sub-title">Education</h3>
+        <blockquote class="quote">
+          <p class="edu"><span class="when">2023 – present</span><b>King Mongkut's University of Technology North Bangkok</b>Bachelor's degree, Computer Engineering · GPA 3.31</p>
+          <p class="edu"><span class="when">2019 – 2021</span><b>Rajamangala University of Technology Phra Nakhon</b>Electrical Engineering · GPA 3.71</p>
+        </blockquote>
+      </div>
+      <div>
+        <h3 class="sub-title">Languages</h3>
+        <blockquote class="quote">
+          <p><b>Thai</b>: native</p>
+          <p><b>English</b>: C1<br>TOEIC Listening 495 · Reading 450</p>
+        </blockquote>
+      </div>
+      <div>
+        <h3 class="sub-title">Contact</h3>
+        <blockquote class="quote">
+          <p><a href="mailto:pummasinpp@gmail.com">pummasinpp@gmail.com</a><br>Pak Kret, Nonthaburi, Thailand</p>
+          <p><b>Reference</b>: Dr. Vera Sa-ing</p>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script src="js/main.js"></script>
+<script src="js/transitions.js"></script>
+<script src="js/flybrain-viz.js"></script>
+<script src="js/flybrain-3d.js"></script>
+<script src="js/flybrain.js"></script>
+<script src="js/snn-engine.js"></script>
+<script src="js/snn.js"></script>
+<script src="js/painai.js"></script>
+<script src="js/ear.js"></script>
+<script src="js/moca.js"></script>
+<script src="js/noise.js"></script>
+<script src="js/fpga-iso.js"></script>
+<script src="js/solar.js"></script>
+<script src="js/cogen.js"></script>
+<script src="js/warehouse.js"></script>
+</body>
+</html>

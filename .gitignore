@@ -1,0 +1,10 @@
+# source files the site doesn't use (large or not ours to publish)
+*.MP4
+*.mp4
+*.mp3
+resuweb.pdf
+# not part of the live site
+mockups/
+tools/
+# copyrighted clip, kept local only
+assets/moca/
